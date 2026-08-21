@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quiz Generator</title>
+    </head>
+    <body>
+        <h1>Welcome to Quiz Generator</h1>
+        {% for quiz in quizzes %}
+        <a href="/quiz/{{ quiz[0] }}">{{ quiz[1] }}</a>
+        {% endfor %}
+        <a href="/create">Create Quiz</a>
+    </body>
+</html>

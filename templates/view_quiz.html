@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ quiz[1] }}</title>
+    </head>
+    <body>
+        <h1>{{ quiz[1] }}</h1>
+        {% for question in questions %}
+        <h2>{{ question[2] }}</h2>
+        <p>A. {{ question[3] }}</p>
+        <p>B. {{ question[4] }}</p>
+        <p>C. {{ question[5] }}</p>
+        <p>D. {{ question[6] }}</p>
+        {% endfor %}
+        <a href="/quiz/{{ quiz[0] }}/add-question">Add Question</a>
+    </body>
+</html>
