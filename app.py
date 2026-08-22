@@ -36,15 +36,31 @@ def add_question(quiz_id):
         answer_d = request.form.get("answer_d")
         correct_answer = request.form.get("correct_answer")
         save_question(quiz_id, question, answer_a, answer_b, answer_c, answer_d, correct_answer)
-        print("Question submitted!")
-        print("Question:", question)
-        print("Answer A:", answer_a)
-        print("Answer B:", answer_b)
-        print("Answer C:", answer_c)
-        print("Answer D:", answer_d)
-        print("Correct Answer:", correct_answer)
         return redirect(url_for("view_quiz", quiz_id=quiz_id))
     return render_template("add_question.html", quiz_id=quiz_id)
+
+@app.route("/quiz/<int:quiz_id>/take-quiz", methods=["GET", "POST"])
+def take_quiz(quiz_id):
+    quiz = get_quiz(quiz_id)
+    questions = get_questions(quiz_id)
+    if request.method == "POST":
+        score = 0
+        results = []
+        for question in questions:
+            user_answer = request.form.get(f"question_{question[0]}")
+            is_correct = user_answer == question[7]
+            if is_correct:
+                score += 1
+            results.append({
+                "question": question[2],
+                "user_answer": user_answer,
+                "correct_answer": question[7],
+                "is_correct": is_correct
+
+            })
+        return render_template("results.html", quiz=quiz, score=score, total=len(questions), results=results)
+    return render_template("take_quiz.html", quiz=quiz, questions=questions)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
