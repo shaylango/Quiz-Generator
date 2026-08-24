@@ -71,4 +71,11 @@ def get_questions(quiz_id):
     connection.close()
     return questions
 
-
+def delete_question(question_id):
+    connection = get_db_connection()
+    connection.execute(
+        "DELETE FROM questions WHERE id = ?",
+        (question_id,)
+    )
+    connection.commit()
+    connection.close()

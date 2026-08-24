@@ -11,6 +11,11 @@
         <p>B. {{ question[4] }}</p>
         <p>C. {{ question[5] }}</p>
         <p>D. {{ question[6] }}</p>
+        <form method="POST" 
+        action="/quiz/{{ quiz[0] }}/question/{{ question[0] }}/delete" 
+        onsubmit="return confirm('Are you sure you want to delete this question?')">
+            <button type="submit">Delete Question</button>
+        </form>
         {% endfor %}
         <a href="/quiz/{{ quiz[0] }}/add-question">Add Question</a>
         <a href="/quiz/{{ quiz[0] }}/take-quiz">Take Quiz</a>
