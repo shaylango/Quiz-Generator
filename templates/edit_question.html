@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Question</title>
+    </head>
+    <body>
+        <h1>Edit Question</h1>
+        <form method="POST">
+            <label>Question:</label>
+            <input type="text" name="question" value="{{ question[2] }}">
+            <label>Answer A</label>
+            <input type="text" name="answer_a" value="{{ question[3] }}">
+            <label>Answer B</label>
+            <input type="text" name="answer_b" value="{{ question[4] }}">
+            <label>Answer C</label>
+            <input type="text" name="answer_c" value="{{ question[5] }}">
+            <label>Answer D</label>
+            <input type="text" name="answer_d" value="{{ question[6] }}">
+            <label>Correct Answer:</label>
+            <select name="correct_answer">
+                <option value="A" {% if question[7] == "A" %}selected{% endif %}>A</option>
+                <option value="B" {% if question[7] == "B" %}selected{% endif %}>B</option>
+                <option value="C" {% if question[7] == "C" %}selected{% endif %}>C</option>
+                <option value="D" {% if question[7] == "D" %}selected{% endif %}>D</option>
+            </select>
+            <button>Save Changes</button>
+        </form>
+    </body>
+</html>

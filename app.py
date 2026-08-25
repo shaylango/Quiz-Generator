@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question
+from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question, get_question, update_question
 
 app = Flask(__name__)
 initialize_database()
@@ -65,6 +65,20 @@ def take_quiz(quiz_id):
 def delete_question_route(quiz_id, question_id):
     delete_question(question_id)
     return redirect(url_for("view_quiz", quiz_id=quiz_id))
+
+@app.route("/quiz/<int:quiz_id>/question/<int:question_id>/edit", methods=["GET", "POST"])
+def edit_question_route(quiz_id, question_id):
+    question = get_question(question_id)
+    if request.method == "POST":
+        question_text = request.form.get("question")
+        answer_a = request.form.get("answer_a")
+        answer_b = request.form.get("answer_b")
+        answer_c = request.form.get("answer_c")
+        answer_d = request.form.get("answer_d")
+        correct_answer = request.form.get("correct_answer")
+        update_question(question_id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer)
+        return redirect(url_for("view_quiz", quiz_id=quiz_id))
+    return render_template("edit_question.html", question=question)
 
 if __name__ == "__main__":
     app.run(debug=True)

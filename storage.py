@@ -79,3 +79,21 @@ def delete_question(question_id):
     )
     connection.commit()
     connection.close()
+
+def get_question(question_id):
+    connection = get_db_connection()
+    question = connection.execute(
+        "SELECT * FROM questions WHERE id = ?",
+        (question_id,)
+    ).fetchone()
+    connection.close()
+    return question
+
+def update_question(question_id, question, answer_a, answer_b, answer_c, answer_d, correct_answer):
+    connection = get_db_connection()
+    connection.execute(
+        "UPDATE questions SET question = ?, answer_a = ?, answer_b = ?, answer_c = ?, answer_d = ?, correct_answer = ? WHERE id = ?",
+        (question, answer_a, answer_b, answer_c, answer_d, correct_answer, question_id)
+    )
+    connection.commit()
+    connection.close()
