@@ -12,10 +12,11 @@ def welcome():
 @app.route("/create", methods=["GET", "POST"])
 def create_quiz():
     if request.method == "POST":
-        print("Form submitted!")
-        quiz_name = request.form.get("quiz_name")
-        print("Quiz Name:", quiz_name)
+        quiz_name = request.form.get("quiz_name", "")
+        if not quiz_name.strip():
+            return "Quiz name is required"
         save_quiz(quiz_name)
+        return redirect(url_for("welcome"))
     return render_template("create_quiz.html")
 
 @app.route("/quiz/<int:quiz_id>")
