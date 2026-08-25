@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question, get_question, update_question, update_quiz
+from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question, get_question, update_question, update_quiz, delete_quiz
 
 app = Flask(__name__)
 initialize_database()
@@ -99,6 +99,11 @@ def edit_quiz(quiz_id):
         update_quiz(quiz_id, quiz_name)
         return redirect(url_for("view_quiz", quiz_id=quiz_id))
     return render_template("edit_quiz.html", quiz=quiz)
+
+@app.route("/quiz/<int:quiz_id>/delete", methods=["POST"])
+def delete_quiz_route(quiz_id):
+    delete_quiz(quiz_id)
+    return redirect(url_for("welcome"))
 
 if __name__ == "__main__":
     app.run(debug=True)

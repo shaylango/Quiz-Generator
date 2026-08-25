@@ -6,6 +6,11 @@
     <body>
         <h1>{{ quiz[1] }}</h1>
         <a href="/quiz/{{ quiz[0] }}/edit">Edit Quiz Name</a>
+        <form method="POST" 
+        action="/quiz/{{ quiz[0] }}/delete" 
+        onsubmit="return confirm('Are you sure you want to delete this quiz?')">
+            <button type="submit">Delete Quiz</button>
+        </form>
         {% for question in questions %}
         <h2>{{ question[2] }}</h2>
         <p>A. {{ question[3] }}</p>

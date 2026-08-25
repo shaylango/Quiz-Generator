@@ -106,3 +106,16 @@ def update_quiz(quiz_id, quiz_name):
     )
     connection.commit()
     connection.close()
+
+def delete_quiz(quiz_id):
+    connection = get_db_connection()
+    connection.execute(
+        "DELETE FROM questions WHERE quiz_id = ?",
+        (quiz_id,)
+    )
+    connection.execute(
+        "DELETE FROM quizzes WHERE id = ?",
+        (quiz_id,)
+    )
+    connection.commit()
+    connection.close()
