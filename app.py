@@ -29,12 +29,16 @@ def view_quiz(quiz_id):
 @app.route("/quiz/<int:quiz_id>/add-question", methods=["GET", "POST"])
 def add_question(quiz_id):
     if request.method == "POST":
-        question = request.form.get("question")
-        answer_a = request.form.get("answer_a")
-        answer_b = request.form.get("answer_b")
-        answer_c = request.form.get("answer_c")
-        answer_d = request.form.get("answer_d")
+        question = request.form.get("question", "")
+        answer_a = request.form.get("answer_a", "")
+        answer_b = request.form.get("answer_b", "")
+        answer_c = request.form.get("answer_c", "")
+        answer_d = request.form.get("answer_d", "")
         correct_answer = request.form.get("correct_answer")
+        if not question.strip() or not answer_a.strip() or not answer_b.strip() or not answer_c.strip() or not answer_d.strip():
+            return "All fields are required"
+        if correct_answer not in ["A", "B", "C", "D"]:
+            return "Invalid correct answer"
         save_question(quiz_id, question, answer_a, answer_b, answer_c, answer_d, correct_answer)
         return redirect(url_for("view_quiz", quiz_id=quiz_id))
     return render_template("add_question.html", quiz_id=quiz_id)
@@ -70,12 +74,16 @@ def delete_question_route(quiz_id, question_id):
 def edit_question_route(quiz_id, question_id):
     question = get_question(question_id)
     if request.method == "POST":
-        question_text = request.form.get("question")
-        answer_a = request.form.get("answer_a")
-        answer_b = request.form.get("answer_b")
-        answer_c = request.form.get("answer_c")
-        answer_d = request.form.get("answer_d")
+        question_text = request.form.get("question", "")
+        answer_a = request.form.get("answer_a", "")
+        answer_b = request.form.get("answer_b", "")
+        answer_c = request.form.get("answer_c", "")
+        answer_d = request.form.get("answer_d", "")
         correct_answer = request.form.get("correct_answer")
+        if not question_text.strip() or not answer_a.strip() or not answer_b.strip() or not answer_c.strip() or not answer_d.strip():
+            return "All fields are required"
+        if correct_answer not in ["A", "B", "C", "D"]:
+            return "Invalid correct answer"
         update_question(question_id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer)
         return redirect(url_for("view_quiz", quiz_id=quiz_id))
     return render_template("edit_question.html", question=question)
