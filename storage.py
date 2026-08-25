@@ -97,3 +97,12 @@ def update_question(question_id, question, answer_a, answer_b, answer_c, answer_
     )
     connection.commit()
     connection.close()
+
+def update_quiz(quiz_id, quiz_name):
+    connection = get_db_connection()
+    connection.execute(
+        "UPDATE quizzes SET name = ? WHERE id = ?",
+        (quiz_name, quiz_id)
+    )
+    connection.commit()
+    connection.close()

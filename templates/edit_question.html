@@ -5,23 +5,26 @@
     </head>
     <body>
         <h1>Edit Question</h1>
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
         <form method="POST">
             <label>Question:</label>
-            <input type="text" name="question" value="{{ question[2] }}" required>
+            <input type="text" name="question" value="{{ question_text | default(question[2]) }}" required>
             <label>Answer A</label>
-            <input type="text" name="answer_a" value="{{ question[3] }}" required>
+            <input type="text" name="answer_a" value="{{ answer_a | default(question[3]) }}" required>
             <label>Answer B</label>
-            <input type="text" name="answer_b" value="{{ question[4] }}" required>
+            <input type="text" name="answer_b" value="{{ answer_b | default(question[4]) }}" required>
             <label>Answer C</label>
-            <input type="text" name="answer_c" value="{{ question[5] }}" required>
+            <input type="text" name="answer_c" value="{{ answer_c | default(question[5]) }}" required>
             <label>Answer D</label>
-            <input type="text" name="answer_d" value="{{ question[6] }}" required>
+            <input type="text" name="answer_d" value="{{ answer_d | default(question[6]) }}" required>
             <label>Correct Answer:</label>
             <select name="correct_answer">
-                <option value="A" {% if question[7] == "A" %}selected{% endif %}>A</option>
-                <option value="B" {% if question[7] == "B" %}selected{% endif %}>B</option>
-                <option value="C" {% if question[7] == "C" %}selected{% endif %}>C</option>
-                <option value="D" {% if question[7] == "D" %}selected{% endif %}>D</option>
+                <option value="A" {% if correct_answer | default(question[7]) == "A" %}selected{% endif %}>A</option>
+                <option value="B" {% if correct_answer | default(question[7]) == "B" %}selected{% endif %}>B</option>
+                <option value="C" {% if correct_answer | default(question[7]) == "C" %}selected{% endif %}>C</option>
+                <option value="D" {% if correct_answer | default(question[7]) == "D" %}selected{% endif %}>D</option>
             </select>
             <button>Save Changes</button>
         </form>

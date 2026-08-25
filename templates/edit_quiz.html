@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Create Quiz</title>
+        <title>Edit Quiz</title>
     </head>
     <body>
-        <h1>Create a Quiz</h1>
+        <h1>Edit Quiz</h1>
         {% if error %}
         <p>{{ error }}</p>
         {% endif %}
         <form method="POST">
             <label>Quiz Name:</label>
-            <input type="text" name="quiz_name" value="{{ quiz_name }}" required>
-            <button>Create Quiz</button>
+            <input type="text" name="quiz_name" value="{{ quiz_name | default(quiz[1]) }}" required>
+            <button>Save Changes</button>
         </form>
     </body>
 </html>

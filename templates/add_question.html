@@ -5,23 +5,26 @@
     </head>
     <body>
         <h1>Add Question</h1>
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
         <form method="POST">
             <label>Question:</label>
-            <input type="text" name="question" required>
+            <input type="text" name="question" value="{{ question }}" required>
             <label>Answer A:</label>
-            <input type="text" name="answer_a" required>
+            <input type="text" name="answer_a" value="{{ answer_a }}" required>
             <label>Answer B:</label>
-            <input type="text" name="answer_b" required>
+            <input type="text" name="answer_b" value="{{ answer_b }}" required>
             <label>Answer C:</label>
-            <input type="text" name="answer_c" required>
+            <input type="text" name="answer_c" value="{{ answer_c }}" required>
             <label>Answer D:</label>
-            <input type="text" name="answer_d" required>
+            <input type="text" name="answer_d" value="{{ answer_d }}" required>
             <label>Correct Answer:</label>
             <select name="correct_answer">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
+                <option value="A" {% if correct_answer == "A" %}selected{% endif %}>A</option>
+                <option value="B" {% if correct_answer == "B" %}selected{% endif %}>B</option>
+                <option value="C" {% if correct_answer == "C" %}selected{% endif %}>C</option>
+                <option value="D" {% if correct_answer == "D" %}selected{% endif %}>D</option>
             </select>
             <button>Save Question</button>
         </form>

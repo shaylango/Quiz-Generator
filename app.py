@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question, get_question, update_question
+from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question, get_question, update_question, update_quiz
 
 app = Flask(__name__)
 initialize_database()
@@ -14,10 +14,10 @@ def create_quiz():
     if request.method == "POST":
         quiz_name = request.form.get("quiz_name", "")
         if not quiz_name.strip():
-            return "Quiz name is required"
+            return render_template("create_quiz.html", quiz_name=quiz_name, error="Quiz name is required")
         save_quiz(quiz_name)
         return redirect(url_for("welcome"))
-    return render_template("create_quiz.html")
+    return render_template("create_quiz.html", quiz_name="")
 
 @app.route("/quiz/<int:quiz_id>")
 def view_quiz(quiz_id):
@@ -37,9 +37,9 @@ def add_question(quiz_id):
         answer_d = request.form.get("answer_d", "")
         correct_answer = request.form.get("correct_answer")
         if not question.strip() or not answer_a.strip() or not answer_b.strip() or not answer_c.strip() or not answer_d.strip():
-            return "All fields are required"
+            return render_template("add_question.html", quiz_id=quiz_id, question=question, answer_a=answer_a, answer_b=answer_b, answer_c=answer_c, answer_d=answer_d, correct_answer=correct_answer, error="All fields are required")
         if correct_answer not in ["A", "B", "C", "D"]:
-            return "Invalid correct answer"
+            return render_template("add_question.html", quiz_id=quiz_id, question=question, answer_a=answer_a, answer_b=answer_b, answer_c=answer_c, answer_d=answer_d, correct_answer=correct_answer, error="Invalid correct answer")
         save_question(quiz_id, question, answer_a, answer_b, answer_c, answer_d, correct_answer)
         return redirect(url_for("view_quiz", quiz_id=quiz_id))
     return render_template("add_question.html", quiz_id=quiz_id)
@@ -82,12 +82,23 @@ def edit_question_route(quiz_id, question_id):
         answer_d = request.form.get("answer_d", "")
         correct_answer = request.form.get("correct_answer")
         if not question_text.strip() or not answer_a.strip() or not answer_b.strip() or not answer_c.strip() or not answer_d.strip():
-            return "All fields are required"
+            return render_template("edit_question.html", question=question, question_text=question_text, answer_a=answer_a, answer_b=answer_b, answer_c=answer_c, answer_d=answer_d, correct_answer=correct_answer, error="All fields are required")
         if correct_answer not in ["A", "B", "C", "D"]:
-            return "Invalid correct answer"
+            return render_template("edit_question.html", question=question, question_text=question_text, answer_a=answer_a, answer_b=answer_b, answer_c=answer_c, answer_d=answer_d, correct_answer=correct_answer, error="Invalid correct answer")
         update_question(question_id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer)
         return redirect(url_for("view_quiz", quiz_id=quiz_id))
     return render_template("edit_question.html", question=question)
+
+@app.route("/quiz/<int:quiz_id>/edit", methods=["GET", "POST"])
+def edit_quiz(quiz_id):
+    quiz = get_quiz(quiz_id)
+    if request.method == "POST":
+        quiz_name = request.form.get("quiz_name", "")
+        if not quiz_name.strip():
+            return render_template("edit_quiz.html", quiz=quiz, quiz_name=quiz_name, error="Quiz name is required")
+        update_quiz(quiz_id, quiz_name)
+        return redirect(url_for("view_quiz", quiz_id=quiz_id))
+    return render_template("edit_quiz.html", quiz=quiz)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -5,6 +5,7 @@
     </head>
     <body>
         <h1>{{ quiz[1] }}</h1>
+        <a href="/quiz/{{ quiz[0] }}/edit">Edit Quiz Name</a>
         {% for question in questions %}
         <h2>{{ question[2] }}</h2>
         <p>A. {{ question[3] }}</p>
