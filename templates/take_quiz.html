@@ -8,10 +8,10 @@
         <form method="POST">
         {% for question in questions %}
         <h2>{{ question[2] }}</h2>
-        <p><input type="radio" name="question_{{ question[0] }}" value="A"> A. {{ question[3] }}</p>
-        <p><input type="radio" name="question_{{ question[0] }}" value="B"> B. {{ question[4] }}</p>
-        <p><input type="radio" name="question_{{ question[0] }}" value="C"> C. {{ question[5] }}</p>
-        <p><input type="radio" name="question_{{ question[0] }}" value="D"> D. {{ question[6] }}</p>
+        <p><input type="radio" name="question_{{ question[0] }}" value="A" required> A. {{ question[3] }}</p>
+        <p><input type="radio" name="question_{{ question[0] }}" value="B" required> B. {{ question[4] }}</p>
+        <p><input type="radio" name="question_{{ question[0] }}" value="C" required> C. {{ question[5] }}</p>
+        <p><input type="radio" name="question_{{ question[0] }}" value="D" required> D. {{ question[6] }}</p>
         {% endfor %}
         <button>Submit Quiz</button>
         </form>

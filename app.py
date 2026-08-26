@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
 from storage import initialize_database, save_quiz, get_quizzes, get_quiz, save_question, get_questions, delete_question, get_question, update_question, update_quiz, delete_quiz
 
 app = Flask(__name__)
@@ -22,6 +22,8 @@ def create_quiz():
 @app.route("/quiz/<int:quiz_id>")
 def view_quiz(quiz_id):
     quiz = get_quiz(quiz_id)
+    if not quiz:
+        abort(404)
     questions = get_questions(quiz_id)
     print("Questions:", questions)
     print("Quiz: ", quiz)
@@ -29,6 +31,9 @@ def view_quiz(quiz_id):
 
 @app.route("/quiz/<int:quiz_id>/add-question", methods=["GET", "POST"])
 def add_question(quiz_id):
+    quiz = get_quiz(quiz_id)
+    if not quiz:
+        abort(404)
     if request.method == "POST":
         question = request.form.get("question", "")
         answer_a = request.form.get("answer_a", "")
@@ -47,7 +52,11 @@ def add_question(quiz_id):
 @app.route("/quiz/<int:quiz_id>/take-quiz", methods=["GET", "POST"])
 def take_quiz(quiz_id):
     quiz = get_quiz(quiz_id)
+    if not quiz:
+        abort(404)
     questions = get_questions(quiz_id)
+    if not questions:
+        return redirect(url_for("view_quiz", quiz_id=quiz_id))
     if request.method == "POST":
         score = 0
         results = []
@@ -68,12 +77,21 @@ def take_quiz(quiz_id):
 
 @app.route("/quiz/<int:quiz_id>/question/<int:question_id>/delete", methods=["POST"])
 def delete_question_route(quiz_id, question_id):
+    question = get_question(question_id)
+    if not question:
+        abort(404)
+    if question[1] != quiz_id:
+        abort(404)
     delete_question(question_id)
     return redirect(url_for("view_quiz", quiz_id=quiz_id))
 
 @app.route("/quiz/<int:quiz_id>/question/<int:question_id>/edit", methods=["GET", "POST"])
 def edit_question_route(quiz_id, question_id):
     question = get_question(question_id)
+    if not question:
+        abort(404)
+    if question[1] != quiz_id:
+        abort(404)
     if request.method == "POST":
         question_text = request.form.get("question", "")
         answer_a = request.form.get("answer_a", "")
@@ -92,6 +110,8 @@ def edit_question_route(quiz_id, question_id):
 @app.route("/quiz/<int:quiz_id>/edit", methods=["GET", "POST"])
 def edit_quiz(quiz_id):
     quiz = get_quiz(quiz_id)
+    if not quiz:
+        abort(404)
     if request.method == "POST":
         quiz_name = request.form.get("quiz_name", "")
         if not quiz_name.strip():
@@ -102,6 +122,9 @@ def edit_quiz(quiz_id):
 
 @app.route("/quiz/<int:quiz_id>/delete", methods=["POST"])
 def delete_quiz_route(quiz_id):
+    quiz = get_quiz(quiz_id)
+    if not quiz:
+        abort(404)
     delete_quiz(quiz_id)
     return redirect(url_for("welcome"))
 

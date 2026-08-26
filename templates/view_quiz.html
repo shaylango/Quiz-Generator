@@ -25,6 +25,10 @@
         </form>
         {% endfor %}
         <a href="/quiz/{{ quiz[0] }}/add-question">Add Question</a>
+        {% if questions %}
         <a href="/quiz/{{ quiz[0] }}/take-quiz">Take Quiz</a>
+        {% else %}
+        <p>Add at least one question before taking the quiz.</p>
+        {% endif %}
     </body>
 </html>
