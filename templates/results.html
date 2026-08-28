@@ -2,21 +2,24 @@
 <html>
     <head>
         <title>Quiz Results</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <h1>Quiz Results</h1>
-        <p>Score: {{ score }} / {{ total }}</p>
+        <p class="score">Score: {{ score }} / {{ total }}</p>
         {% for result in results %}
+        <div class="result-card">
         <h2>{{ result["question"] }}</h2>
-        {% if result ["is_correct"] %}
-        <p>Correct</p>
+        {% if result["is_correct"] %}
+        <p class="correct">Correct</p>
         {% else %}
-        <p>Incorrect</p>
+        <p class="incorrect">Incorrect</p>
         <p>Your answer: {{ result["user_answer"] }}</p>
         <p>Correct answer: {{ result["correct_answer"] }}</p>
         {% endif %}
+        </div>
         {% endfor %}
-        <a href="/quiz/{{ quiz[0] }}/take-quiz">Retake Quiz</a>
-        <a href="/quiz/{{ quiz[0] }}">Back to Quiz</a>
+        <a class="button" href="/quiz/{{ quiz[0] }}/take-quiz">Retake Quiz</a>
+        <a class="button" href="/quiz/{{ quiz[0] }}">Back to Quiz</a>
     </body>
 </html>

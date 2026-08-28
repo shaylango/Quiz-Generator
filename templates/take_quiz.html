@@ -2,18 +2,21 @@
 <html>
     <head>
         <title>Take Quiz</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <h1>{{ quiz[1] }}</h1>
         <form method="POST">
         {% for question in questions %}
+        <div class="question-card">
         <h2>{{ question[2] }}</h2>
-        <p><input type="radio" name="question_{{ question[0] }}" value="A" required> A. {{ question[3] }}</p>
-        <p><input type="radio" name="question_{{ question[0] }}" value="B" required> B. {{ question[4] }}</p>
-        <p><input type="radio" name="question_{{ question[0] }}" value="C" required> C. {{ question[5] }}</p>
-        <p><input type="radio" name="question_{{ question[0] }}" value="D" required> D. {{ question[6] }}</p>
+        <label class="answer-choice"><input type="radio" name="question_{{ question[0] }}" value="A" required> A. {{ question[3] }}</label>
+        <label class="answer-choice"><input type="radio" name="question_{{ question[0] }}" value="B" required> B. {{ question[4] }}</label>
+        <label class="answer-choice"><input type="radio" name="question_{{ question[0] }}" value="C" required> C. {{ question[5] }}</label>
+        <label class="answer-choice"><input type="radio" name="question_{{ question[0] }}" value="D" required> D. {{ question[6] }}</label>
+        </div>
         {% endfor %}
-        <button>Submit Quiz</button>
+        <button class="button">Submit Quiz</button>
         </form>
     </body>
 </html>

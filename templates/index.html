@@ -2,12 +2,15 @@
 <html>
     <head>
         <title>Quiz Generator</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     </head>
     <body>
         <h1>Welcome to Quiz Generator</h1>
         {% for quiz in quizzes %}
+        <div class="quiz-card">
         <a href="/quiz/{{ quiz[0] }}">{{ quiz[1] }}</a>
+        </div>
         {% endfor %}
-        <a href="/create">Create Quiz</a>
+        <a href="/create" class="button">Create Quiz</a>
     </body>
 </html>

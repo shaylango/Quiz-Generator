@@ -2,16 +2,18 @@
 <html>
     <head>
         <title>Create Quiz</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <h1>Create a Quiz</h1>
         {% if error %}
         <p>{{ error }}</p>
         {% endif %}
-        <form method="POST">
+        <form method="POST" class="form-card">
             <label>Quiz Name:</label>
             <input type="text" name="quiz_name" value="{{ quiz_name }}" required>
-            <button>Create Quiz</button>
+            <button class="button">Create Quiz</button>
         </form>
+        <a href="/" class="back-link">Back to Home</a>
     </body>
 </html>

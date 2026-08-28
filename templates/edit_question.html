@@ -2,13 +2,14 @@
 <html>
     <head>
         <title>Edit Question</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <h1>Edit Question</h1>
         {% if error %}
         <p>{{ error }}</p>
         {% endif %}
-        <form method="POST">
+        <form method="POST" class="form-card">
             <label>Question:</label>
             <input type="text" name="question" value="{{ question_text | default(question[2]) }}" required>
             <label>Answer A</label>
@@ -26,7 +27,8 @@
                 <option value="C" {% if correct_answer | default(question[7]) == "C" %}selected{% endif %}>C</option>
                 <option value="D" {% if correct_answer | default(question[7]) == "D" %}selected{% endif %}>D</option>
             </select>
-            <button>Save Changes</button>
+            <button class="button">Save Changes</button>
         </form>
+        <a href="/quiz/{{ question[1] }}" class="back-link">Back to Quiz</a>
     </body>
 </html>
